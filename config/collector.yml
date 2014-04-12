@@ -1,0 +1,10 @@
+logging:
+  file: /home/work/jpaas_light_collector/log/collector.log
+
+mysql:
+  host: 10.36.58.31
+  username: jpaas
+  password: mhxzkhl
+  db_name: jpaas
+
+listen_port: 8002

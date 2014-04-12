@@ -1,0 +1,38 @@
+#!/bin/sh
+#Define the return status
+export PATH=/home/work/jpaas_light_collector/env/ruby193/bin:$PATH
+#
+# Function that starts the program.
+#
+do_start()
+{
+    #Make sure that only one proc is running!
+    mkdir -p /home/work/jpaas_light_collector/status/collector
+    (/home/work/jpaas_light_collector/bin/supervise.collector -p /home/work/jpaas_light_collector/status/collector -f "bundle exec /home/work/jpaas_light_collector/bin/collector" 0</dev/null &>/dev/null &)
+}
+
+#
+# Function that stops the program.
+#
+do_stop()
+{
+   killall -g supervise.collector
+}
+
+case C"$1" in
+   Cstart)
+        do_start
+        exit 0
+        ;;
+    Cstop)
+        do_stop
+        exit 0
+        ;;
+       *)
+        echo "Usage: $0 {start|stop}" >&2
+        exit 0
+        ;;
+esac
+
+
+:
