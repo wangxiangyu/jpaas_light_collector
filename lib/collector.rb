@@ -40,7 +40,7 @@ class Collector < Sinatra::Base
        set :logger, @logger
     end
     
-    def self.get_cluster_by_ip(ip)
+    def get_cluster_by_ip(ip)
         cluster='unknown'
         result=DeaList.where(:ip=>ip)
         unless result.empty?
