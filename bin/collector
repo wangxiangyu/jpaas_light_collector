@@ -1,7 +1,10 @@
 #!/usr/bin/env ruby
 $:.unshift(File.expand_path("../lib", File.dirname(__FILE__)))
 require "collector"
+require "cluster"
 Collector.configure
 Collector.setup_log
 Collector.connect_to_db
+Cluster.configure(Collector.logger)
+Cluster.connect_to_db
 Collector.run!

@@ -7,4 +7,10 @@ mysql:
   password: mhxzkhl
   db_name: jpaas
 
-listen_port: 8002
+cluster_mysql:
+  host: 10.23.247.41
+  username: root
+  password: jpaasv2-ci
+  db_name: JPaaSV2_hosts
+  port: 7777
+listen_port: 8003

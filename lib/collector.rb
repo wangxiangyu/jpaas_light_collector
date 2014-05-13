@@ -5,6 +5,8 @@ require 'json'
 require "yaml"
 require "logger"
 require "database"
+require "resolv"
+require "cluster"
 
 
 class Collector < Sinatra::Base
@@ -37,6 +39,16 @@ class Collector < Sinatra::Base
        @logger.level = Logger::DEBUG
        set :logger, @logger
     end
+    
+    def self.get_cluster_by_ip(ip)
+        cluster='unknown'
+        result=DeaList.where(:ip=>ip)
+        unless result.empty?
+            cluster=result.first.cluster_num
+        end
+        cluster
+    end
+
     post '/collector/collect_instance_meta' do
      begin
        params = JSON.parse request.body.read
@@ -51,7 +63,7 @@ class Collector < Sinatra::Base
        instance_info['app_name']=params["application_name"]
        instance_info['uris']=params["application_uris"].join(",")
        instance_info['instance_index']=params["instance_index"]
-       instance_info['cluster_num']="unknown"
+       instance_info['cluster_num']=get_cluster_by_ip(instance_info['host'])
        instance_info['warden_handle']=params["warden_handle"]
        instance_info['warden_container_path']=params["warden_container_path"]
        instance_info['state_starting_timestamp']=params["state_starting_timestamp"]
@@ -112,7 +124,7 @@ class Collector < Sinatra::Base
                dea_info={}
                dea_info["uuid"]=params["uuid"]
                dea_info["ip"]=params["ip"]
-               dea_info["cluster_num"]="unknown"
+               dea_info["cluster_num"]=Cluster.get_cluster_by_ip(dea_info["ip"])
                dea_info["time"]=Time.now.to_i
                DeaList.where(
                     :uuid=>dea_info["uuid"]
