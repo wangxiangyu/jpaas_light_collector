@@ -98,6 +98,8 @@ class Collector < Sinatra::Base
             if result.empty?
                 return {:rescode=>-1,:msg=>"instance doesn't exist"}.to_json
             else
+            	host=result.first.host
+            	instance_info['cluster_num']=get_cluster_by_ip(host)
                 result.first.update_attributes(instance_info)
                 return {:rescode=>0,:msg=>"ok"}.to_json
             end
