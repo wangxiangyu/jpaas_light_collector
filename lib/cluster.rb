@@ -15,11 +15,19 @@ class Cluster
             @logger.error "#{e.message},#{e.backtrace}"
         end
     end
+    def self.get_db_connection
+        begin
+            @db_connection if @db_connection.ping
+        rescue Mysql::Error => e
+            @logger.error "reconnect to cluster info db"
+            self.connect_to_db
+        end
+    end
     def self.get_cluster_by_ip(ip)
 	begin
         cluster='unknown'
         hostname=Resolv.getname(ip).gsub(".baidu.com","")
-        result=@db_connection.query("select cluster from all_hosts where host='#{hostname}'")
+        result=self.get_db_connection.query("select cluster from all_hosts where host='#{hostname}'")
         while info=result.fetch_hash
             cluster=info['cluster']
         end
