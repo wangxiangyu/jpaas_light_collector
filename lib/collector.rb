@@ -69,6 +69,7 @@ class Collector < Sinatra::Base
        instance_info['state_starting_timestamp']=params["state_starting_timestamp"]
        instance_info['port_info']=params["instance_meta"]["prod_ports"].to_json.to_s
        instance_info['noah_monitor_port']=params["noah_monitor_host_port"]
+       instance_info['instance_mgr_host_port']=params["instance_mgr_host_port"]
        instance_info['warden_host_ip']=params["warden_host_ip"]
        instance_info['instance_id']=params["instance_id"]
        instance_info['disk_quota']=params["limits"]["disk"]
