@@ -9,7 +9,8 @@ require "active_record"
                 :username =>config["mysql"]["username"],
                 :password =>config["mysql"]["password"],
                 :port =>config["mysql"]["port"],
-                :pool => 100
+                :pool => 100,
+                :reconnect => true
             )
         end
     end
