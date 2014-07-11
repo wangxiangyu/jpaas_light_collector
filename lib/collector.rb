@@ -49,6 +49,10 @@ class Collector < Sinatra::Base
         cluster
     end
 
+    def format(s)
+        s.to_s.gsub(/^"/,"").gsub(/"$/,"").gsub(/^'/,"").gsub(/'$/,"")
+    end
+
     post '/collector/collect_instance_meta' do
      begin
        params = JSON.parse request.body.read
@@ -137,4 +141,58 @@ class Collector < Sinatra::Base
                settings.logger.error "#{e.message},#{e.backtrace}"
            end
        end
+
+        post '/collector/state_update' do
+           begin
+               params = JSON.parse request.body.read
+               ip=params["ip"]
+               handle=params["handle"]
+               state=params["state"]
+               instance=InstanceStatus.where(:host=>ip,:warden_handle=>handle)
+               if instance.empty?
+                    return {:rescode=>-1,:msg=>"container #{handle} on #{ip} does't exist"}.to_json
+               else
+                    instance.update_all({:state=>state})
+                    return {:rescode=>0,:msg=>"ok"}.to_json
+               end
+           rescue => e
+               settings.logger.error "#{e.message},#{e.backtrace}"
+           end
+        end
+
+        get '/collector/state_query' do
+           begin
+               ip=format(params["ip"])
+               handle=format(params["handle"])
+               instance=InstanceStatus.where(:host=>ip,:warden_handle=>handle)
+               if instance.empty?
+                    return {:rescode=>-1,:msg=>"container #{handle} on #{ip} does't exist"}.to_json
+               else
+                    return {:rescode=>0,:msg=>"ok",:state=>"#{instance.first.state}"}.to_json
+               end
+           rescue => e
+               settings.logger.error "#{e.message},#{e.backtrace}"
+           end
+        end
+    
+        post '/collector/all_containers' do
+           begin
+               params = JSON.parse request.body.read
+               ip=params["ip"]
+               containers=params["containers"]
+               instances=InstanceStatus.where(:host=>ip)
+               instances.find_each do |instance|
+                    unless containers.include?(instance.warden_handle)
+                        to_del_cnt=instance.to_del_cnt.to_i-1
+                        instance.update(:to_del_cnt=>to_del_cnt)
+                    else
+                        to_del_cnt=3
+                        instance.update(:to_del_cnt=>to_del_cnt)
+                    end
+               end
+               return {:rescode=>0,:msg=>"ok"}.to_json
+           rescue => e
+               settings.logger.error "#{e.message},#{e.backtrace}"
+           end
+        end
 end
