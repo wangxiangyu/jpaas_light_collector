@@ -98,7 +98,8 @@ class Collector < Sinatra::Base
             instance_info['mem_usage']=params["usage"]["mem"]
             instance_info['fds_usage']=params["usage"]["fds"]
             result=InstanceStatus.where(
-                  :instance_id=>instance_info['instance_id']
+                  :instance_id=>instance_info['instance_id'],
+                  :state=>'RUNNING'
              )
             if result.empty?
                 return {:rescode=>-1,:msg=>"instance doesn't exist"}.to_json
@@ -116,7 +117,7 @@ class Collector < Sinatra::Base
         get '/collector/instance_existence_check' do
             begin
                 instance_id=params["instance_id"]
-                if InstanceStatus.where(:instance_id=>instance_id).empty?
+                if InstanceStatus.where(:instance_id=>instance_id,:state=>'RUNNING').empty?
                     return {"status"=>"bad"}.to_json
                 else
                     return {"status"=>"ok"}.to_json
