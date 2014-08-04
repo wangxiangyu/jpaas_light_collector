@@ -1,73 +1,51 @@
 GEM
   remote: http://ruby.taobao.org/
   specs:
-    activemodel (4.1.0)
-      activesupport (= 4.1.0)
+    activemodel (4.1.4)
+      activesupport (= 4.1.4)
       builder (~> 3.1)
-    activerecord (4.1.0)
-      activemodel (= 4.1.0)
-      activesupport (= 4.1.0)
+    activerecord (4.1.4)
+      activemodel (= 4.1.4)
+      activesupport (= 4.1.4)
       arel (~> 5.0.0)
-    activesupport (4.1.0)
+    activerecord-jdbc-adapter (1.3.9)
+      activerecord (>= 2.2)
+    activerecord-jdbcmysql-adapter (1.3.9)
+      activerecord-jdbc-adapter (~> 1.3.9)
+      jdbc-mysql (>= 5.1.22)
+    activesupport (4.1.4)
       i18n (~> 0.6, >= 0.6.9)
       json (~> 1.7, >= 1.7.7)
       minitest (~> 5.1)
       thread_safe (~> 0.1)
       tzinfo (~> 1.1)
-    addressable (2.3.6)
-    arel (5.0.0)
+    arel (5.0.1.20140414130214)
     builder (3.2.2)
-    cookiejar (0.3.2)
-    daemons (1.1.9)
-    em-http-request (1.1.2)
-      addressable (>= 2.3.4)
-      cookiejar
-      em-socksify (>= 0.3)
-      eventmachine (>= 1.0.3)
-      http_parser.rb (>= 0.6.0)
-    em-resolv-replace (1.1.3)
-    em-socksify (0.3.0)
-      eventmachine (>= 1.0.0.beta.4)
-    em-synchrony (1.0.3)
-      eventmachine (>= 1.0.0.beta.1)
-    eventmachine (1.0.3)
-    http_parser.rb (0.6.0)
-    i18n (0.6.9)
-    json (1.8.1)
+    i18n (0.6.11)
+    jdbc-mysql (5.1.31)
+    json (1.8.1-java)
     logger (1.2.8)
-    minitest (5.3.2)
-    mysql (2.9.1)
+    minitest (5.4.0)
+    puma (2.9.0-java)
+      rack (>= 1.1, < 2.0)
     rack (1.5.2)
-    rack-fiber_pool (0.9.3)
     rack-protection (1.5.3)
       rack
     sinatra (1.4.5)
       rack (~> 1.4)
       rack-protection (~> 1.4)
       tilt (~> 1.3, >= 1.3.4)
-    sinatra-synchrony (0.4.1)
-      em-http-request (~> 1.0)
-      em-resolv-replace (~> 1.1)
-      em-synchrony (~> 1.0.1)
-      eventmachine (~> 1.0.0)
-      rack-fiber_pool (~> 0.9)
-      sinatra (~> 1.0)
-    thin (1.6.2)
-      daemons (>= 1.0.9)
-      eventmachine (>= 1.0.0)
-      rack (>= 1.0.0)
-    thread_safe (0.3.3)
+    thread_safe (0.3.4-java)
     tilt (1.4.1)
-    tzinfo (1.1.0)
+    tzinfo (1.2.1)
       thread_safe (~> 0.1)
 
 PLATFORMS
-  ruby
+  java
 
 DEPENDENCIES
-  activerecord
+  activerecord-jdbcmysql-adapter
+  jdbc-mysql
   logger
-  mysql
+  puma
   sinatra
-  sinatra-synchrony
-  thin

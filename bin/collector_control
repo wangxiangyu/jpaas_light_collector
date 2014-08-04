@@ -1,6 +1,6 @@
 #!/bin/sh
 #Define the return status
-export PATH=/home/work/jpaas_light_collector/env/ruby193/bin:$PATH
+export PATH=/home/work/jpaas_light_collector/jruby-1.7.13/bin:$PATH
 #
 # Function that starts the program.
 #
@@ -8,7 +8,7 @@ do_start()
 {
     #Make sure that only one proc is running!
     mkdir -p /home/work/jpaas_light_collector/status/collector
-    (/home/work/jpaas_light_collector/bin/supervise.collector -p /home/work/jpaas_light_collector/status/collector -f "bundle exec /home/work/jpaas_light_collector/bin/collector" 0</dev/null &>/dev/null &)
+    (/home/work/jpaas_light_collector/bin/supervise.collector -p /home/work/jpaas_light_collector/status/collector -f "jruby /home/work/jpaas_light_collector/bin/collector" 0</dev/null &>/dev/null &)
 }
 
 #
