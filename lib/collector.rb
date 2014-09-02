@@ -58,7 +58,7 @@ class Collector < Sinatra::Base
         params = JSON.parse request.body.read
         instance_info={}
         instance_info['state']=params["state"]
-        return {:rescode=>-1,:msg=>"instance state is not running"}.to_json unless instance_info['state']=="RUNNING"
+        #return {:rescode=>-1,:msg=>"instance state is not running"}.to_json unless instance_info['state']=="RUNNING"
         instance_info['time']=Time.now.to_i
         instance_info['host']=params["dea_ip"]
         instance_info['space']=params["tags"]["space_name"]
