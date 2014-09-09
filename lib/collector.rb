@@ -71,6 +71,7 @@ class Collector < Sinatra::Base
         instance_info['warden_handle']=params["warden_handle"]
         instance_info['warden_container_path']=params["warden_container_path"]
         instance_info['state_starting_timestamp']=params["state_starting_timestamp"]
+        instance_info['state_running_timestamp']=params["state_running_timestamp"]
         instance_info['port_info']=params["instance_meta"]["prod_ports"].to_json.to_s
         instance_info['noah_monitor_port']=params["noah_monitor_host_port"]
         instance_info['instance_mgr_host_port']=params["instance_mgr_host_port"]
