@@ -98,6 +98,7 @@ class Collector < Sinatra::Base
         instance_info['cpu_usage']=params["usage"]["cpu"]
         instance_info['mem_usage']=params["usage"]["mem"]
         instance_info['fds_usage']=params["usage"]["fds"]
+        instance_info['disk_usage']=params["usage"]["disk"]
         result=InstanceStatus.where(
               :instance_id=>instance_info['instance_id'],
               :state=>'RUNNING'
